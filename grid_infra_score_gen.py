@@ -19,7 +19,7 @@ import fiona
 import numpy as np
 import overpy
 
-#       pass  
+#       pass
 df=pd.read_csv('tagweights.csv', sep=':',header=0)
 # Hier Timeout ändern, falls keine Rückgabe!
 resultstring = "[out:json][timeout:100];area[name=\"Heidelberg\"]->.searchArea;\n("
@@ -27,7 +27,7 @@ crs = {'init': 'epsg:4326'} #4326
 #df=pd.read_csv('tagweights.csv', sep=':',header=0)
 dict = {}
 
-for i in range(0,len(df.values)-46):
+for i in range(0,len(df.values)):
     for x in range(2, 5):
         string = str(df.values[i][x])
         if not string == "nan":
@@ -37,7 +37,6 @@ for i in range(0,len(df.values)-46):
                 print(value + " [" + str(df.values[i][6]) + "]")
                 for pre in ["node", "way"]:
                     resultstring += "\t" + pre + '[\"' + df.columns[x] + '\"=\"' + value + '\"](area.searchArea);'
-                    
 
 resultstring += "); out center;"
 #print(resultstring)
@@ -54,8 +53,8 @@ print(str(len(result.ways )) + " Ways found.")
 def findWeight(tags):
     for poss_key in df.columns[2:5]:
         if poss_key in tags:
-                if tags[poss_key] in dict.keys():
-                    return dict[tags[poss_key]]
+            if tags[poss_key] in dict.keys():
+                return dict[tags[poss_key]]
     return 0
 
 
@@ -78,21 +77,26 @@ geometry = [Point(xy) for xy in zip(nodedf.lon, nodedf.lat)]
 geo_df = GeoDataFrame(nodedf, crs=crs, geometry=geometry)
 del geo_df['lat']
 del geo_df['lon']
+del geo_df['point_id']
+print("geo_df")
 print(geo_df)
 grid = gpd.read_file("gitter_wgs84.shp")
+del grid['left']
+del grid['top']
+del grid['bottom']
+del grid['right']
 print("Eingangs- Grid: ")
 print(grid)
 
-dfsjoin = gpd.sjoin(grid, geo_df, how="left")
+dfsjoin = gpd.sjoin(grid, geo_df, how="left", op='contains')
+print(dfsjoin)
 #print(dfsjoin)
-dfpivot = pd.pivot_table(dfsjoin, index="id", columns= "infra_score", aggfunc={'infra_score':'sum'})
-dfpivot.columns = dfpivot.columns.droplevel()
+dfpivot = pd.pivot_table(dfsjoin, index="id", aggfunc={'infra_score': np.sum})
+# dfpivot.columns = dfpivot.columns.droplevel()
+
+print(dfpivot)
 
 dfgridnew = grid.merge(dfpivot, how='left', on="id")
-del dfgridnew['left']
-del dfgridnew['top']
-del dfgridnew['bottom']
-del dfgridnew['right']
 #dfgridnew.drop(["left", "top", "right", "bottom"], axis=1)
 print("Gemergtes Grid: ")
 print(dfgridnew)
@@ -102,34 +106,32 @@ print(dfgridnew)
 
 #Für die Bestimmung dieser Werte wird ertsmal der Durschnitt genommen. Vorschläge:
 
-ways = result.get_ways()
-weight_list = [0] * len(ways)
-meta_geo = [None] * len(ways)
-for i in range(len(ways)):
-    w = ways[i]
-    
-    weight = findWeight(w.tags)
-    weight_list[i] = weight
-    
-    nodes = w.get_nodes(resolve_missing=True)
-    N = len(nodes)
-    lat_list = [0] * N
-    lon_list = [0] * N
-    
-    for j in range(N):
-        n = nodes[j]
-        lat_list[j] = n.lat
-        lon_list[j] = n.lon
-       
-        #print(n.id, n.lon, n.lat,weight)
-    poly_geo = Polygon(zip(lon_list, lat_list))
-    meta_geo[i] = poly_geo
+#ways = result.get_ways()
+#weight_list = [0] * len(ways)
+#meta_geo = [None] * len(ways)
+#for i in range(len(ways)):
+#    w = ways[i]
 
-poly = gpd.GeoDataFrame(crs=crs, geometry=meta_geo)
-poly.assign(infra_score=weight_list, columns="infra_score")
-poly.to_file(driver="ESRI Shapefile", filename='polygons_infra_score.shp')
-print("Gebäudeumrisse mit Infrastrukturwert: ")
-print(poly)
+#    weight = findWeight(w.tags)
+#    weight_list[i] = weight
+
+#    nodes = w.get_nodes(resolve_missing=True)
+#    N = len(nodes)
+#    lat_list = [0] * N
+#    lon_list = [0] * N
+
+#    for j in range(N):
+#        n = nodes[j]
+#        lat_list[j] = n.lat
+#        lon_list[j] = n.lon
+
+#        #print(n.id, n.lon, n.lat,weight)
+#    poly_geo = Polygon(zip(lon_list, lat_list))
+#    meta_geo[i] = poly_geo
+
+#poly = gpd.GeoDataFrame(crs=crs, geometry=meta_geo)
+#poly.assign(infra_score=weight_list, columns="infra_score")
+dfgridnew.to_file(driver="ESRI Shapefile", filename='polygons_infra_score.shp')
+#print("Gebäudeumrisse mit Infrastrukturwert: ")
+#print(poly)
 print("Finished")
-        
-        
