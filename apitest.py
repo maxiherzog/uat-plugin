@@ -1,15 +1,17 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Sat Mar 21 15:28:56 2020
-
-@author: maxi
-"""
 
 import pandas as pd
+import numpy as np
 import overpy
 
-resultstring = "[out:json][timeout:25];\n{{geocodeArea:Heidelberg}}->.searchArea;\n("
+# def getWeight(tags):
+#     for poss_
+#         string = str(df.columns[x])
+        
+#       pass  
+df=pd.read_csv('tagweights.csv', sep=':',header=0)
+resultstring = "[out:json][timeout:25];area[name=\"Heidelberg\"]->.searchArea;\n("
 
 df=pd.read_csv('tagweights.csv', sep=':',header=0)
 for i in range(0,len(df.values)-20):
@@ -18,13 +20,21 @@ for i in range(0,len(df.values)-20):
         if not string == "nan":
             liststring = string.split(", ")
             for value in liststring:
-                for pre in ["node", "way", "relation"]:
+                for pre in ["node", "way"]:
                     resultstring += "\t" + pre + '[\"' + df.columns[x] + '\"=\"' + value + '\"](area.searchArea);'
 
-resultstring += "); \n out body;"
+resultstring += "); out center;"
 #print(resultstring)
 api = overpy.Overpass()
 
 result = api.query(resultstring)
 
-print(result.get_ways())
+print("Finished Query!")
+print(len(result.nodes))
+
+
+for n in result.get_nodes():
+    print(n.tags)
+
+for w in result.get_ways():
+    print(w.get_nodes(resolve_missing=True))
