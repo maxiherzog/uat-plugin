@@ -11,11 +11,6 @@ import overpy
 
 resultstring = "[out:json][timeout:25];\n{{geocodeArea:Heidelberg}}->.searchArea;\n("
 
-def searchFor(key,val):
-    global resultstring
-    
-
-
 df=pd.read_csv('tagweights.csv', sep=':',header=0)
 for i in range(0,len(df.values)-20):
     for x in range(2, 5):
