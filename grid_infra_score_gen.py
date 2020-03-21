@@ -1,20 +1,18 @@
-#!/usr/bin/env python3
+ #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 Created on Sat Mar 21 15:28:56 2020
-
 @author: maxi
 """
 
 import pandas as pd
-pd.set_option('display.max_rows', 20)
+pd.set_option('display.max_rows', 7000)
 pd.set_option('display.max_columns', 500)
 pd.set_option('display.width', 1000)
 import geopandas as gpd
 from geopandas import GeoDataFrame
 from shapely.geometry import Point
 from shapely.geometry import Polygon
-import fiona
 
 import numpy as np
 import overpy
@@ -61,6 +59,7 @@ def findWeight(tags):
 COLNAMES = ["point_id", "lon", "lat", "infra_score"]
 nodedf = pd.DataFrame(columns = COLNAMES)
 
+print("nodes werden analyisert...")
 # Nodes
 nodes = result.get_nodes()
 for i in range(len(nodes)):
@@ -78,60 +77,71 @@ geo_df = GeoDataFrame(nodedf, crs=crs, geometry=geometry)
 del geo_df['lat']
 del geo_df['lon']
 del geo_df['point_id']
-print("geo_df")
+print("Infrastrukturwerte der Nodes(Punkte): ")
 print(geo_df)
 grid = gpd.read_file("gitter_wgs84.shp")
 del grid['left']
 del grid['top']
 del grid['bottom']
 del grid['right']
-print("Eingangs- Grid: ")
-print(grid)
+#print("Eingangs- Grid: ")
+#print(grid)
 
 dfsjoin = gpd.sjoin(grid, geo_df, how="left", op='contains')
-print(dfsjoin)
-#print(dfsjoin)
 dfpivot = pd.pivot_table(dfsjoin, index="id", aggfunc={'infra_score': np.sum})
 # dfpivot.columns = dfpivot.columns.droplevel()
 
-print(dfpivot)
+#print(dfpivot)
 
 dfgridnew = grid.merge(dfpivot, how='left', on="id")
 #dfgridnew.drop(["left", "top", "right", "bottom"], axis=1)
-print("Gemergtes Grid: ")
-print(dfgridnew)
+#print("Gemergtes Grid: ")
+#print(dfgridnew)
 
 #id, infra_wert, geometry
-#%%
 
-#Für die Bestimmung dieser Werte wird ertsmal der Durschnitt genommen. Vorschläge:
 
-#ways = result.get_ways()
-#weight_list = [0] * len(ways)
-#meta_geo = [None] * len(ways)
-#for i in range(len(ways)):
-#    w = ways[i]
+#Berechnung der Infrastrukturwerte der ways
+print("ways(Umrisse) werden analysiert...")
+ways = result.get_ways()
+weight_list = [0] * len(ways)
+meta_geo = [None] * len(ways)
+for i in range(len(ways)):
+    w = ways[i]
 
-#    weight = findWeight(w.tags)
-#    weight_list[i] = weight
+    weight = findWeight(w.tags)
+    weight_list[i] = weight
 
-#    nodes = w.get_nodes(resolve_missing=True)
-#    N = len(nodes)
-#    lat_list = [0] * N
-#    lon_list = [0] * N
+    nodes = w.get_nodes(resolve_missing=True)
+    N = len(nodes)
+    lat_list = [0] * N
+    lon_list = [0] * N
 
-#    for j in range(N):
-#        n = nodes[j]
-#        lat_list[j] = n.lat
-#        lon_list[j] = n.lon
+    for j in range(N):
+        n = nodes[j]
+        lat_list[j] = n.lat
+        lon_list[j] = n.lon
 
-#        #print(n.id, n.lon, n.lat,weight)
-#    poly_geo = Polygon(zip(lon_list, lat_list))
-#    meta_geo[i] = poly_geo
+        #print(n.id, n.lon, n.lat,weight)
+    poly_geo = Polygon(zip(lon_list, lat_list))
+    meta_geo[i] = poly_geo
 
-#poly = gpd.GeoDataFrame(crs=crs, geometry=meta_geo)
-#poly.assign(infra_score=weight_list, columns="infra_score")
-dfgridnew.to_file(driver="ESRI Shapefile", filename='polygons_infra_score.shp')
+weight_df = pd.DataFrame(weight_list, columns=["infra_score"])
+
+poly_df = GeoDataFrame(weight_df, crs=crs, geometry=meta_geo)
+print("Infrastrukturfaktoren der Umrisse: ")
+print(weight_df)
+
+polysjoin = gpd.sjoin(grid, poly_df, how="left", op='contains')
+polypivot = pd.pivot_table(polysjoin, index="id", aggfunc={'infra_score': np.sum})
+# dfpivot.columns = dfpivot.columns.droplevel()
+
+finalgrid = grid.merge(polypivot, how='left', on="id")
+#print(finalgrid)
+finalgrid["infra_score"] = np.array(finalgrid["infra_score"]) + np.array(dfgridnew["infra_score"])
 #print("Gebäudeumrisse mit Infrastrukturwert: ")
 #print(poly)
+finalgrid.to_file(driver="ESRI Shapefile", filename='infra_scores.shp')
+print("Finales Grid")
+print(finalgrid)
 print("Finished")
