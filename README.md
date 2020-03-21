@@ -1,1 +1,1 @@
-# necessary-activity-tracker
+# unnecessary-activity-tracker
