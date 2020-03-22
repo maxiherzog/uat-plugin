@@ -2,7 +2,7 @@
 
 A tool to identify and visualize necessary and unnecessary movement of people using positional data(e.g. anonymized cell phone data)
 
-This project was made in 48h hours _from 20.3 to 22.3.20_ during the [#WirVsWirus](http://www.wirvsvirushackathon.org) -Hackathon, to contribute in finding solutions to the ongoing corona-crisis.
+This project was made in 48h hours _from 20.3 to 22.3.20_ during the [#WirVsVirus](http://www.wirvsvirushackathon.org) -Hackathon, to contribute in finding solutions to the ongoing corona-crisis.
 Also see the corresponding [devpost-page](https://devpost.com/software/0045_haustiere_handydaten)(in German).
 Feel free to pull request and help continue the development of this tool!
 
@@ -21,6 +21,15 @@ python3 grid_infra_score_gen.py GRID.shp TAG_WEIGHTS.csv INFRA_SCORES.shp
 ```
 Keep in mind that this generates 4 filetypes: cpg, dbf, prj, shp, shx
 If you set this Tool up on a server, you might consider running this very rarely, because the infra_score won't change much over time.
+
+## No files? We have example data
+We ran the analysis for a city in Germany: Heidelberg
+You can use the grid file found in `assets`.
+
+Feel also free to use the hand-crafted `tagweights.csv`.
+
+You can see the result [here](http://wirvsvirus.lpk-server.de/).
+
 
 ## Generating the Shape File
 If you got your files(especially the .shp and .shx) you can generate the final scores by executing
