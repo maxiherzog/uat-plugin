@@ -86,5 +86,7 @@ pd.set_option('display.max_rows', 6500)
 dffinal = dfmerge_noise
 dffinal["index_right"] = val
 dffinal.columns=["id", "geometry", "val"]
+dffinal['pop'] = x
+dffinal['infra_score'] = y
 dffinal.to_file(driver="ESRI Shapefile", filename='scores.shp')
-print(val)
+print(dffinal)
