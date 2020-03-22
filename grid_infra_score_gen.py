@@ -6,21 +6,20 @@ Created on Sat Mar 21 15:28:56 2020
 """
 
 import pandas as pd
-pd.set_option('display.max_rows', 7000)
+pd.set_option('display.max_rows', 20)
 pd.set_option('display.max_columns', 500)
 pd.set_option('display.width', 1000)
 import geopandas as gpd
 from geopandas import GeoDataFrame
 from shapely.geometry import Point
 from shapely.geometry import Polygon
-
 import numpy as np
 import overpy
 
 #       pass
 df=pd.read_csv('tagweights.csv', sep=':',header=0)
 # Hier Timeout ändern, falls keine Rückgabe!
-resultstring = "[out:json][timeout:100];area[name=\"Heidelberg\"]->.searchArea;\n("
+resultstring = "[out:json][timeout:200];area[name=\"Heidelberg\"]->.searchArea;\n("
 crs = {'init': 'epsg:4326'} #4326
 #df=pd.read_csv('tagweights.csv', sep=':',header=0)
 dict = {}
@@ -36,14 +35,14 @@ for i in range(0,len(df.values)):
                 for pre in ["node", "way"]:
                     resultstring += "\t" + pre + '[\"' + df.columns[x] + '\"=\"' + value + '\"](area.searchArea);'
 
-resultstring += "); out center;"
+resultstring += ");out; >; out;"
 #print(resultstring)
 api = overpy.Overpass()
 #print(dict["cafe"])
 result = api.query(resultstring)
 
 print("Finished Query!")
-print(str(len(result.nodes)) + " Nodes found.")
+print(str(len(result.nodes)) + " Nodes found.(Hier sind jetzt auch entpackte ways dabei!)")
 print(str(len(result.ways )) + " Ways found.")
 
 #print(dict['bakery'])
@@ -63,6 +62,7 @@ print("nodes werden analyisert...")
 # Nodes
 nodes = result.get_nodes()
 for i in range(len(nodes)):
+
     n = nodes[i]
     #print(n.tags)
     weight = findWeight(n.tags)
@@ -80,6 +80,28 @@ del geo_df['point_id']
 print("Infrastrukturwerte der Nodes(Punkte): ")
 print(geo_df)
 grid = gpd.read_file("gitter_wgs84.shp")
+
+# ---> SUBST
+# layer_file = "gitter_wgs84.shp"
+# #Read data
+# collection = list(fiona.open(layer_file,'r'))
+# df1 = pd.DataFrame(collection)
+
+# #Check Geometry
+# def isvalid(geom):
+#     try:
+#         shape(geom)
+#         return 1
+#     except:
+#         return 0
+# df1['isvalid'] = df1['geometry'].apply(lambda x: isvalid(x))
+# df1 = df1[df1['isvalid'] == 1]
+# collection = json.loads(df1.to_json(orient='records'))
+
+# #Convert to geodataframe
+# grid = gpd.GeoDataFrame.from_features(collection)
+
+#### SUBST
 del grid['left']
 del grid['top']
 del grid['bottom']
@@ -106,13 +128,12 @@ print("ways(Umrisse) werden analysiert...")
 ways = result.get_ways()
 weight_list = [0] * len(ways)
 meta_geo = [None] * len(ways)
+ct = 0
 for i in range(len(ways)):
     w = ways[i]
-
-    weight = findWeight(w.tags)
-    weight_list[i] = weight
-
-    nodes = w.get_nodes(resolve_missing=True)
+    #print(w.tags)
+    
+    nodes = w.get_nodes(resolve_missing=False)
     N = len(nodes)
     lat_list = [0] * N
     lon_list = [0] * N
@@ -123,8 +144,18 @@ for i in range(len(ways)):
         lon_list[j] = n.lon
 
         #print(n.id, n.lon, n.lat,weight)
-    poly_geo = Polygon(zip(lon_list, lat_list))
-    meta_geo[i] = poly_geo
+    try:
+        poly_geo = Polygon(zip(lon_list, lat_list))
+        meta_geo[ct] = poly_geo
+        ct+=1
+        weight_list[ct] = findWeight(w.tags)
+    except:
+        print("invalid way-shape fount @id=", w.id, "i=", i , "ignoring...")
+        pass
+
+#arrs zuschneiden
+weight_list = weight_list[:ct]
+meta_geo = meta_geo[:ct]
 
 weight_df = pd.DataFrame(weight_list, columns=["infra_score"])
 
@@ -138,7 +169,17 @@ polypivot = pd.pivot_table(polysjoin, index="id", aggfunc={'infra_score': np.sum
 
 finalgrid = grid.merge(polypivot, how='left', on="id")
 #print(finalgrid)
-finalgrid["infra_score"] = np.array(finalgrid["infra_score"]) + np.array(dfgridnew["infra_score"])
+insc_nodes = np.array(finalgrid["infra_score"])
+insc_ways  = np.array(dfgridnew["infra_score"])
+print("Fun facts:")
+print("Nodes:")
+print("\tµ = ", np.mean(np.array(insc_nodes)))
+print("\tσ = ", np.std (np.array(insc_nodes)))
+print("Ways:")
+print("\tµ = ", np.mean(np.array(insc_ways)))
+print("\tσ = ", np.std (np.array(insc_ways)))
+finalgrid["infra_score"] =  insc_nodes + insc_ways
+
 #print("Gebäudeumrisse mit Infrastrukturwert: ")
 #print(poly)
 finalgrid.to_file(driver="ESRI Shapefile", filename='infra_scores.shp')
