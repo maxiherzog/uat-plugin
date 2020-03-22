@@ -1,19 +1,19 @@
 Offen?:Bezeichnung:amenity:shop:tourism:public_transport:weight
 Ja:Apotheken:pharmacy::::1
-Ja:Carsharing:car_sharing::::1
+Ja:Carsharing:car_sharing::::0
 Ja:Bäckereien::bakery:::0.5
 Ja:Banken:atm, bank, bureau_de_change::::1
 Ja:Baumärkte::doityourself:::1
 Ja:Tankstellen/Brennstoffhandel:fuel::::0.8
-Ja:Kliniken:clinic, dentist, doctors, hospital, nursing_home, social_facility, veterinary::::1
+Ja:Kliniken:clinic, dentist, doctors, hospital, nursing_home, social_facility, veterinary::::3
 Ja:Drogerien::cosmetics, chemist:::0.5
 Ja:Getränkenmärkte::beverages:::0.5
-Ja:Supermärkte::supermarket:::0.5
+Ja:Supermärkte::supermarket:::1
 Ja:Kioske::kiosk:::0.5
 Ja:Metzgereien::butcher:::1
 Ja:Kfz-Werkstätten:vehicle_inspection, charging_station, car_wash::::1
 Ja:Poststellen:post_depot, post_office::::0.8
-Ja:Reisebüros::travel_agency:::1
+Ja:Reisebüros::travel_agency:::0.5
 Ja:Sanitätshäuser::medical_supply:::1
 Ja:Schlüsselreperatur::locksmith, houseware:::0.5
 Ja:Tierbedarf::pet:::0.8
