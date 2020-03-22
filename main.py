@@ -18,7 +18,7 @@ import numpy as np
 def main():
     if len(sys.argv) != 6 :
         print("missing arguments. Usage:")
-        print("python3 main.py FILE_NAME_OF_GRID.shp INFRA_SCORES_FILE.shp POINTS.shp POINTS_BACKGROUND.shp SCORES_FINAL.shp")
+        print("python3 main.py GRID.shp INFRA_SCORES.shp POINTS.shp POINTS_BACKGROUND.shp SCORES_FINAL.shp")
         return
 
     grid = gpd.read_file(sys.argv[1])
