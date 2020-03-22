@@ -50,9 +50,6 @@ print("pivot")
 print(dfpivot)
 # dfpivot.columns = dfpivot.columns.droplevel()
 
-
-
-
 dfmerge = grid.merge(dfpivot, how='left',on='id')
 #pd.set_option('display.max_rows', 7000)
 print("merge")
@@ -78,8 +75,16 @@ val_points = dfmerge["index_right"]
 val_points_noise = dfmerge_noise["index_right"]
 y  = infra["infra_scor"]
 
-x = np.max(val_points-val_points_noise, 0)
+x = np.maximum(val_points-val_points_noise, np.ones(len(y)))
 # normalisieren
-x = x/np.max(x)
+# x = x/np.max(x)
 val = x**y + x # Funktion
+# val = val/np.max(val)
+pd.set_option('display.max_rows', 6500)
+
+# create return file
+dffinal = dfmerge_noise
+dffinal["index_right"] = val
+dffinal.columns=["id", "geometry", "val"]
+dffinal.to_file(driver="ESRI Shapefile", filename='scores.shp')
 print(val)
