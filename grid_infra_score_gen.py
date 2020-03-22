@@ -24,7 +24,7 @@ crs = {'init': 'epsg:4326'} #4326
 #df=pd.read_csv('tagweights.csv', sep=':',header=0)
 dict = {}
 
-for i in range(0,len(df.values)):
+for i in range(0,len(df.values)-47):
     for x in range(2, 5):
         string = str(df.values[i][x])
         if not string == "nan":
@@ -178,7 +178,10 @@ print("\tσ = ", np.std (np.array(insc_nodes)))
 print("Ways:")
 print("\tµ = ", np.mean(np.array(insc_ways)))
 print("\tσ = ", np.std (np.array(insc_ways)))
-finalgrid["infra_score"] =  insc_nodes + insc_ways
+#normalisieren
+insc = insc_nodes + insc_ways
+insc = insc/np.max(np.abs(insc)) + 1
+finalgrid["infra_score"] =  insc
 
 #print("Gebäudeumrisse mit Infrastrukturwert: ")
 #print(poly)
