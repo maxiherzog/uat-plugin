@@ -49,3 +49,5 @@ By specifying a different file extension for the output file to _.geojson_ a .ge
 * [overpy](https://github.com/DinoTools/python-overpy) - Python Wrapper to access the Overpass-API
 * [geopandas](https://geopandas.org/) - Mapping Python Library build on pandas to create and import Shape Files
 * [QGis](https://www.qgis.org/de/site/index.html) - Used to display Shape Files
+* [qgis2web](https://github.com/tomchadwin/qgis2web) - Used to generate the [example page](http://wirvsvirus.lpk-server.de/)
+* [OpenLayers](https://openlayers.org/) - Used by qgis2web to display the map
