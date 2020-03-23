@@ -22,14 +22,6 @@ python3 grid_infra_score_gen.py GRID.shp TAG_WEIGHTS.csv INFRA_SCORES.shp
 Keep in mind that this generates 5 filetypes: _.cpg, .dbf, .prj, .shp, .shx_
 If you set this Tool up on a server, you might consider running this very rarely, because the infra_score won't change much over time.
 
-## No files? We have example data
-We ran the analysis for a city in Germany: Heidelberg
-You can use the grid file found in `assets`.
-
-Feel also free to use the hand-crafted `tagweights.csv`.
-
-You can see the result [here](http://wirvsvirus.lpk-server.de/).
-
 
 ## Generating the Shape File
 If you got your files(especially the _.shp and .shx_) you can generate the final scores by executing
@@ -43,6 +35,17 @@ This generates 5 filetypes(_.cpg, .dbf, .prj, .shp, .shx_) for the Shape file wi
 * **pop** The calculated value of movement
 * **infra** The generated values for the surrounding infra structure
 By specifying a different file extension for the output file to _.geojson_, a .geojson with the given data ready to display with web-frontend APIs(e.g. Leaflet, OpenLayers)
+
+
+## No files? We have example data
+We ran the analysis for a Heidelberg, Germany.
+You can use the grid file found in `assets`.
+
+Feel also free to use the hand-crafted `tagweights.csv`.
+
+You can see the result [here](http://wirvsvirus.lpk-server.de/).
+
+
 ## Built With
 
 * [Overpass](https://github.com/drolbr/Overpass-API) - The API used to access OSM
