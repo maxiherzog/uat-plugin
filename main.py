@@ -14,6 +14,7 @@ pd.set_option('display.max_rows', 20)
 pd.set_option('display.max_columns', 500)
 pd.set_option('display.width', 1000)
 import numpy as np
+import time
 
 def main():
     if len(sys.argv) != 6 :
@@ -21,21 +22,64 @@ def main():
         print("python3 main.py GRID.shp INFRA_SCORES.shp POINTS.shp POINTS_BACKGROUND.shp SCORES_FINAL.shp")
         return
 
-    grid = gpd.read_file(sys.argv[1])
-    del grid['left']
-    del grid['top']
-    del grid['right']
-    del grid['bottom']
-    points = gpd.read_file(sys.argv[2])
-    del points['field_1']
-    del points['field_2']
-    print("points")
-    print(points)
+    print("Loading Grid Shape File at " + sys.argv[1])
+    start_time = time.time()
+    try:
+        grid = gpd.read_file(sys.argv[1])
+        try:
+            del grid['left']
+            del grid['top']
+            del grid['bottom']
+            del grid['right']
+        except:
+            pass
+    except:
+        print("Grid Shape File could not be located or is in the wrong format. Do you also have the .shx and .dbf files in the same directory?. Aborting..")
+        return
+    
+    print("Loading Infra Scores Shape File at " + sys.argv[2])
+    
+    try:
+        infra = gpd.read_file(sys.argv[2])
+    except:
+        print("Points Infra Scores Shape File could not be located or is in the wrong format. Do you also have the .shx and .dbf files in the same directory?. Aborting..")
+        return
+    
+    print("Loading Points Shape File at " + sys.argv[3])
+    
+    try:
+        points = gpd.read_file(sys.argv[3])
+        try:
+            del points['field_1']
+            del points['field_2']
+        except:
+            pass
+    except:
+        print("Points Shape File could not be located or is in the wrong format. Do you also have the .shx and .dbf files in the same directory?. Aborting..")
+        return
+    
+    print("Loading Points Background Shape File at " + sys.argv[4])
+    
+    try:
+        noise_points = gpd.read_file(sys.argv[4])
+        try:
+            del points['field_1']
+            del points['field_2']
+        except:
+            pass
+    except:
+        print("Points Background Shape File could not be located or is in the wrong format. Do you also have the .shx and .dbf files in the same directory?. Aborting..")
+        return
+    
+    #points = gpd.read_file(sys.argv[2])
+  
+    #print("points")
+    #print(points)
 
     # join points
     dfsjoin = gpd.sjoin(grid, points, how="left", op='contains')
-    print("join")
-    print(dfsjoin)
+    #print("join")
+    #print(dfsjoin)
 
     # Super ekliges Workaround:
     # Zählfunktion ignoritert Geometry und nan
@@ -50,26 +94,26 @@ def main():
         return ct
     # dropna macht nichts?
     dfpivot = pd.pivot_table(dfsjoin,index='id', aggfunc={'index_right':nanlen}, dropna=True)
-    print("pivot")
-    print(dfpivot)
+    #print("pivot")
+    #print(dfpivot)
 
     dfmerge = grid.merge(dfpivot, how='left',on='id')
-    print("merge")
-    print(dfmerge)
+    #print("merge")
+    #print(dfmerge)
 
     # load infrastructure
-    infra = gpd.read_file(sys.argv[3])
-    print("infra")
-    print(infra)
+    #infra = gpd.read_file(sys.argv[3])
+    #print("infra")
+    #print(infra)
     # join noise points
-    noise_points = gpd.read_file(sys.argv[4])
+    #noise_points = gpd.read_file(sys.argv[4])
 
     dfsjoin_noise = gpd.sjoin(grid, noise_points, how="left", op='contains')
     dfpivot_noise = pd.pivot_table(dfsjoin_noise,index='id', aggfunc={'index_right':nanlen})
 
     dfmerge_noise = grid.merge(dfpivot_noise, how='left',on='id')
-    print("merge noise")
-    print(dfmerge_noise)
+    #print("merge noise")
+    #print(dfmerge_noise)
 
     # # calculate value
     val_points = dfmerge["index_right"]
@@ -86,7 +130,19 @@ def main():
     dffinal.columns=["id", "geometry", "val"]
     dffinal['pop'] = x
     dffinal['infra_score'] = y
-    dffinal.to_file(driver="ESRI Shapefile", filename=sys.argv[5])
+    print("Resulting Grid:")
     print(dffinal)
-
+    
+    if sys.argv[5].endswith(".shp"):
+        print("Saving grid to .shp file: " + sys.argv[5])
+        dffinal.to_file(driver="ESRI Shapefile", filename=sys.argv[5])
+    elif sys.argv[5].endswith(".geojson"):
+        print("Saving grid to .geojson file: " + sys.argv[5])
+        dffinal.to_file(driver="GeoJSON", filename=sys.argv[5])
+    else:
+        print("Unsupported Export File format:" + sys.argv[5] + ". Aborting....")
+        return
+    print("Finished")
+    print("--- "+ str(round((time.time() - start_time), 2)) + " seconds ---")
+    return
 main()
