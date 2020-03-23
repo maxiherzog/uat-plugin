@@ -24,31 +24,26 @@ def main():
         print("python3 grid_infra_score_gen.py GRID.shp TAG_WEIGHTS.csv INFRA_SCORES.shp")
         return
 
-    
+    start_time = time.time()
     
     print("Loading Grid Shape File at " + sys.argv[1])
     
-    #try:
-    grid = gpd.read_file(sys.argv[1])
-    # n = len(grid['left'])
-    #print(grid['left'])
-    # bb_xleft  = grid['left'][0]    /10000
-    # bb_xright = grid['right'][n-1] /10000
-    # print(grid['top'])
-    # bb_ytop  =  grid['top'][0]     /10000
-    # bb_ybot =   grid['bottom'][n-1]/10000
-    minx, miny, maxx, maxy = grid.geometry.total_bounds
-    rnd = 4
-    bb = str(round(miny,rnd)) + "," + str(round(minx,rnd)) + "," + str(round(maxy,rnd)) + "," + str(round(maxx,rnd))
-    print("Found boundary box (", bb,  ")")
-    
-    del grid['left']
-    del grid['top']
-    del grid['bottom']
-    del grid['right']
-    # 'except:
-    #     print("Grid shape file could not be located or is in the wrong format. Do you also have the shx file in the same directory?. Aborting..")
-    #     return'
+    try:
+        grid = gpd.read_file(sys.argv[1])
+        minx, miny, maxx, maxy = grid.geometry.total_bounds
+        rnd = 4
+        bb = str(round(miny,rnd)) + "," + str(round(minx,rnd)) + "," + str(round(maxy,rnd)) + "," + str(round(maxx,rnd))
+        print("Found boundary box (", bb,  ")")
+        try:
+            del grid['left']
+            del grid['top']
+            del grid['bottom']
+            del grid['right']
+        except:
+            pass
+    except:
+        print("Grid shape file could not be located or is in the wrong format. Do you also have the .shx and .dbf files in the same directory?. Aborting..")
+        return
     
     print("Loading Tagweights at " + sys.argv[2])
     try:
@@ -215,7 +210,7 @@ def main():
     finalgrid.to_file(driver="ESRI Shapefile", filename=sys.argv[3])
     print("Saved grid to file: " + sys.argv[3])
     print("Finished")
+    print("--- "+ str(round((time.time() - start_time), 2)) + " seconds ---")
+    return
     
-start_time = time.time()
 main()
-print("--- "+ str(round((time.time() - start_time), 2)) + " seconds ---")
