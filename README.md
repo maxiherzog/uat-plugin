@@ -12,14 +12,14 @@ _overpy, numpy, pandas, geopandas, rtree_
 You can install them using pip or anaconda!
 
 ## Generating the Infrastructure
-A Shape File of the grid(the .shp and .shx files), and a Table with tagweights.
+A Shape File of the grid(the _.shp, .dbf, .shx_ files), and a Table with tagweights.
 (You could also use a single _.geojson_ files in all commands instead of _.shp_ files)
 
 With the files in the same folder you may generate the infrastructure score for all grids by running
 ```
 python3 grid_infra_score_gen.py GRID.shp TAG_WEIGHTS.csv INFRA_SCORES.shp
 ```
-Keep in mind that this generates 4 filetypes: cpg, dbf, prj, shp, shx
+Keep in mind that this generates 5 filetypes: _.cpg, .dbf, .prj, .shp, .shx_
 If you set this Tool up on a server, you might consider running this very rarely, because the infra_score won't change much over time.
 
 ## No files? We have example data
@@ -32,12 +32,12 @@ You can see the result [here](http://wirvsvirus.lpk-server.de/).
 
 
 ## Generating the Shape File
-If you got your files(especially the .shp and .shx) you can generate the final scores by executing
+If you got your files(especially the _.shp and .shx_) you can generate the final scores by executing
 ```
 python3 main.py GRID.shp INFRA_SCORES.shp POINTS.shp POINTS_BACKGROUND.shp SCORES_FINAL.shp
 ```
 Where POINTS.shp is the Shape File for the Location-Data, and POINTS_BACKGROUND.shp is the background noise of given Point distribution.(e.g. at night)
-This generates 4 filetypes for the Shape file with values 
+This generates 5 filetypes(_.cpg, .dbf, .prj, .shp, .shx_) for the Shape file with values 
 * **geometry** The Grids geometries to display in any compatible program 
 * **val** The calculated value of unnecessary-movement calculated with _val(pop, infra)= pop^infra + pop_
 * **pop** The calculated value of movement
