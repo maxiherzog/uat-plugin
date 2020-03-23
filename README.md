@@ -42,7 +42,7 @@ This generates 5 filetypes(_.cpg, .dbf, .prj, .shp, .shx_) for the Shape file wi
 * **val** The calculated value of unnecessary-movement calculated with _val(pop, infra)= pop^infra + pop_
 * **pop** The calculated value of movement
 * **infra** The generated values for the surrounding infra structure
-By specifying a different file extension for the output file to _.geojson_ a .geojson with the given data ready to display with web-frontend APIs(e.g. Leaflet, OpenLayers)
+By specifying a different file extension for the output file to _.geojson_, a .geojson with the given data ready to display with web-frontend APIs(e.g. Leaflet, OpenLayers)
 ## Built With
 
 * [Overpass](https://github.com/drolbr/Overpass-API) - The API used to access OSM
