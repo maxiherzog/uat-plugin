@@ -211,9 +211,17 @@ def main():
     print("\tµ = ", np.mean(np.array(insc_ways)))
     print("\tσ = ", np.std (np.array(insc_ways)))
 
-    #normalisieren
+    #Normalisieren 
+
+    '''--Problem mit Extremwerten
     insc = -insc_nodes - insc_ways
     insc = insc/np.max(np.abs(insc)) + 1
+    finalgrid["infra_score"] =  insc'''
+
+    #Idee: Log. skalieren
+    insc = - (insc_nodes + insc_ways)
+    insc = insc + abs(np.min(insc)) + 1
+    insc = np.log(insc) + 1
     finalgrid["infra_score"] =  insc
 
     #print("Gebäudeumrisse mit Infrastrukturwert: ")
