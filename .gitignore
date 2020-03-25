@@ -130,16 +130,9 @@ dmypy.json
 
 # Custom
 tags
-scores.cpg
-scores.dbf
-scores.prj
-scores.qpj
-scores.shp
-scores.shx
-
-infra_scores.cpg
-infra_scores.dbf
-infra_scores.prj
-infra_scores.qpj
-infra_scores.shp
-infra_scores.shx
+*.cpg
+*.dbf
+*.prj
+*.qpj
+*.shp
+*.shx
