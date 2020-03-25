@@ -256,17 +256,28 @@ def main():
     # print("Ways:")
     # print("\tµ = ", np.mean(insc_ways))
     # print("\tσ = ", np.std (insc_ways))
-
     #normalisieren
-    #insc = -insc_nodes - insc_ways0
+
+
+    #Normalisieren
+    '''--Problem mit Wurzeln: Ich hasse Wurzeln
     fac = 0.1
-    #insc = np.log(1 + insc)
     sgn = np.sign(insc)
     insc = sgn*(sgn*insc/np.max(np.abs(insc)))**fac + 1
-    dfgridnew["infra_score"] =  insc
+    dfgridnew["infra_score"] =  insc'''
 
+    '''--Problem mit Extremwerten
+    insc = -insc_nodes - insc_ways
+    insc = insc/np.max(np.abs(insc)) + 1
+    finalgrid["infra_score"] =  insc'''
+
+    #Idee: Log. skalieren
+    insc = insc + abs(np.min(insc)) + 1
+    insc = np.log(insc) + 1
+    finalgrid["infra_score"] =  insc
+
+    #Nochmal ausgeben
     print("After applying a normilization function:" )
-    # print("Nodes:")
     print("\tµ = ", np.mean(insc))
     print("\tσ = ", np.std (insc))
     #print("Gebäudeumrisse mit Infrastrukturwert: ")

@@ -120,9 +120,31 @@ def main():
     val_points_noise = dfmerge_noise["index_right"]
     y  = infra["infra_scor"]
 
-    x = np.maximum(val_points-val_points_noise, np.ones(len(y)))
+    #Grundlage
+    '''x = np.maximum(val_points-val_points_noise, np.ones(len(y)))
     # normalisieren
-    val = x**y + x # Funktion
+    val = x**y + x # Funktion'''
+
+    #Normalisieren
+
+    #Problem: Exponentielle Ansteckungsgefahr bei lin. Wachstum der Menschenanzahl wird eliminiert.
+    '''x = np.maximum(val_points-val_points_noise, np.ones(len(y)))
+    x = np.log(x) + 1
+    val = x**y + x # Funktion'''
+
+    #Idee/Ansatz: Kleinere Basis als exp(x) um exponentielles Wachstum zu erhalten.
+    x = np.maximum(val_points-val_points_noise, np.ones(len(y)))
+    x = 2**np.log(x)
+    val = x**y
+
+    '''Problem/Ansatz: Keine Unterscheidung zwischen guten und irrelevanten Aufkommen
+     x = np.maximum(val_points-val_points_noise, np.ones(len(y)))
+    val = x**y'''
+
+    '''Idee: Vertausche Argumente -> gute Infrastrukturen werden von irrelevanten unterschieden.
+    x = np.maximum(val_points-val_points_noise, np.ones(len(y)))
+    x = x / np.max(x) + 1
+    val = y**x'''
 
     # create return file
     dffinal = dfmerge_noise
