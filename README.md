@@ -1,6 +1,6 @@
 # unnecessary-activity-tracker
 
-A tool to identify and visualize necessary and unnecessary movement of people using positional data(e.g. anonymized cell phone data)
+A tool to identify and visualize necessary and unnecessary movement of people using positional data(e. g. anonymized cell phone data)
 
 This project was made in 48h hours _from 20.3 to 22.3.20_ during the [#WirVsVirus](http://www.wirvsvirushackathon.org) -Hackathon, to contribute in finding solutions to the ongoing corona-crisis.
 Also see the corresponding [devpost-page](https://devpost.com/software/0045_haustiere_handydaten)(in German).
@@ -26,24 +26,33 @@ If you set this Tool up on a server, you might consider running this very rarely
 ## Generating the Shape File
 If you got your files(especially the _.shp and .shx_) you can generate the final scores by executing
 ```
-python3 main.py GRID.shp INFRA_SCORES.shp POINTS.shp POINTS_BACKGROUND.shp SCORES_FINAL.shp
+python3 main.py INFRA_SCORES.shp POINTS.shp POINTS_BACKGROUND.shp SCORES_FINAL.shp
 ```
-Where POINTS.shp is the Shape File for the Location-Data, and POINTS_BACKGROUND.shp is the background noise of given Point distribution.(e.g. at night)
-This generates 5 filetypes(_.cpg, .dbf, .prj, .shp, .shx_) for the Shape file with values 
-* **geometry** The Grids geometries to display in any compatible program 
+Where `POINTS.shp` is the Shape File for the Location-Data, and `POINTS_BACKGROUND.shp` is the background noise of given Point distribution.(e. g. at night)
+`SCORES_FINAL.shp` is the output Shape File.
+This generates 5 filetypes(_.cpg, .dbf, .prj, .shp, .shx_) for the Shape file with values
+* **geometry** The Grids geometries to display in any compatible program
 * **val** The calculated value of unnecessary-movement calculated with _val(pop, infra)= pop^infra + pop_
 * **pop** The calculated value of movement
 * **infra** The generated values for the surrounding infra structure
-By specifying a different file extension for the output file to _.geojson_, a .geojson with the given data ready to display with web-frontend APIs(e.g. Leaflet, OpenLayers)
+By specifying a different file extension for the output file to _.geojson_, a .geojson with the given data ready to display with web-frontend APIs(e. g. Leaflet, OpenLayers)
 
 
 ## No files? We have example data
-We ran the analysis for a Heidelberg, Germany.
-You can use the grid file found in `assets`.
+We ran the analysis for Heidelberg, Germany.
+You can use the grid and point files found in `data-samples`.
 
 Feel also free to use the hand-crafted `tagweights.csv`.
-
-You can see the result [here](http://wirvsvirus.lpk-server.de/).
+You can try it out yourself! Just run
+```
+python3 grid_infra_score_gen.py data-samples/grid/grid.shp tagweights.csv infra_score.shp
+```
+and after that
+```
+python3 main.py infra_score.shp data-samples/points/points.shp data-samples/t0_points/t0_points.shp final_score.shp
+```
+You should now be able to open the generated Shape File in any compatible editor.(e. g [QGis](https://www.qgis.org/de/site/index.html))
+Alternatively you can see the result for Heidelberg [here](http://wirvsvirus.lpk-server.de/).
 
 
 ## Built With
