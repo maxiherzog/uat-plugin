@@ -1,50 +1,61 @@
-Offen?:Bezeichnung:amenity:shop:tourism:public_transport:weight
-Ja:Apotheken:pharmacy::::1
-Ja:Carsharing:car_sharing::::0
-Ja:Bäckereien::bakery:::0.5
-Ja:Banken:atm, bank, bureau_de_change::::1
-Ja:Baumärkte::doityourself:::1
-Ja:Tankstellen/Brennstoffhandel:fuel::::0.8
-Ja:Kliniken:clinic, dentist, doctors, hospital, nursing_home, social_facility, veterinary::::3
-Ja:Drogerien::cosmetics, chemist:::0.5
-Ja:Getränkenmärkte::beverages:::0.5
-Ja:Supermärkte::supermarket:::1
-Ja:Kioske::kiosk:::0.5
-Ja:Metzgereien::butcher:::1
-Ja:Kfz-Werkstätten:vehicle_inspection, charging_station, car_wash::::1
-Ja:Poststellen:post_depot, post_office::::0.8
-Ja:Reisebüros::travel_agency:::0.5
-Ja:Sanitätshäuser::medical_supply:::1
-Ja:Schlüsselreperatur::locksmith, houseware:::0.5
-Ja:Tierbedarf::pet:::0.8
-Ja:Taxi:taxi::::0.5
-Ja:Waschsalons::laundry:::1
-Ja:Wochenmärkte:marketplace::::0.5
-Ja:Optiker::optician:::1
-Nein:Hotels:::hotel, chalet, hostel, camp_site::-1
-Nein:Blumenläden::florist:::-1
-Nein:Buchhandel::books:::-1
-Nein:Copyshops::copyshop:::-1
-Nein:Fotostudios::photo:::-1
-Nein:Frisöre::hairdresser:::-1
-Nein:Restaurants, Gaststätten:restaurant::::-1
-Nein:Cafes, Eisdielen:cafe, fast_food, food_court, ice_cream::::-1
-Nein:Clubs:nightclub::::-1
-Nein:Kneipen:bar, pub::::-1
-Nein:Kosmetik::beauty:::-1
-Nein:Tattoostudios::tattoo:::-1
-Nein:Wein-/ Spiritosenhandlungen::acohol:::-1
-Nein:Fahrschule:driving_school::::-1
-Nein:Schule, Uni:college, school, university::::-0.8
-Nein:Kindergarten:kindergarten::::-1
-Nein:Bibliotheken:library::::-1
-Nein:Kasino:casino, gambling::::-1
-Nein:Bordell:brothel::::-1
-Nein:Kino:cinema::::-0.5
-Nein:Springbrunnen:fountain::::-1
-Nein:Theater:theatre::::-1
-Nein:Parkbank:bench::::-0.7
-Nein:Sehenswürdigkeiten:::attraction, gallery::-1
-Nein:Museum:::museum::-1
-Nein:Aussichtspunkt:::viewpoint::-0.5
-Nein:Haltestelle::bus_station::station:-0.5
+Offen?:Bezeichnung:amenity:shop:tourism:public_transport:building:natural:leisure:weight
+Ja:Apotheken:pharmacy:::::::1
+Ja:Carsharing:car_sharing:::::::1
+Ja:Bäckereien::bakery::::::0.5
+Ja:Banken:atm, bank, bureau_de_change:::::::1
+Ja:Baumärkte::doityourself::::::1
+Ja:Tankstellen/Brennstoffhandel:fuel:::::::0.8
+Ja:Kliniken:clinic, dentist, doctors, hospital, nursing_home, social_facility, veterinary::::hospital:::1
+Ja:Drogerien::cosmetics, chemist::::::0.5
+Ja:Getränkenmärkte::beverages::::::0.5
+Ja:Supermärkte::supermarket:::supermarket:::0.5
+Ja:Kioske::kiosk:::kiosk:::0.5
+Ja:Metzgereien::butcher::::::1
+Ja:Kfz-Werkstätten:vehicle_inspection, charging_station, car_wash:::::::1
+Ja:Poststellen:post_depot, post_office:::::::0.8
+Ja:Reisebüros::travel_agency::::::1
+Ja:Sanitätshäuser::medical_supply::::::1
+Ja:Schlüsselreperatur::locksmith, houseware::::::0.5
+Ja:Tierbedarf::pet::::::0.8
+Ja:Taxi:taxi:::::::0.5
+Ja:Waschsalons::laundry::::::1
+Ja:Wochenmärkte:marketplace:::::::0.5
+Ja:Optiker::optician::::::1
+Nein:Hotels:::hotel, chalet, hostel, camp_site::hotel:::-1
+Nein:Blumenläden::florist::::::-1
+Nein:Buchhandel::books:::retail:::-1
+Nein:Copyshops::copyshop::::::-1
+Nein:Fotostudios::photo::::::-1
+Nein:Frisöre::hairdresser::::::-1
+Nein:Restaurants, Gaststätten:restaurant:::::::-1
+Nein:Cafes, Eisdielen:cafe:::::::-1
+Nein:Clubs:nightclub:::::::-1
+Nein:Kneipen:bar, pub:::::::-1
+Nein:Kosmetik::beauty::::::-1
+Nein:Tattoostudios::tattoo::::::-1
+Nein:Wein-/ Spiritosenhandlungen::acohol::::::-1
+Nein:Fahrschule:driving_school:::::::-1
+Nein:Schule, Uni:college, school, university:::::::-0.8
+Nein:Kindergarten:kindergarten::::kindergartem:::-1
+Nein:Bibliotheken:library:::::::-1
+Nein:Kasino:casino, gambling::::::adult_gaming_centre, dance, bowling_alley:-1
+Nein:Bordell:brothel:::::::-1
+Nein:Kino:cinema:::::::-0.5
+Nein:Springbrunnen:fountain:::::::-1
+Nein:Theater:theatre:::::::-1
+Nein:Parkbank:bench:::::::-0.7
+Nein:Sehenswürdigkeiten:::attraction, gallery:::::-1
+Nein:Museum:::museum:::::-1
+Nein:Aussichtspunkt:::viewpoint:::::-0.5
+Nein:Haltestelle::bus_station::station:transportation:::-0.5
+Ja:Wohnungen/Häuser:::::apartments, bungalow, cabin, detached, house, dormitory, residental, terrace:::0.2
+Ja:Gewerbe:::::commercial, industrial, warehouse:::0.2
+Nein:Kirchen:::::cathedral, chapel, church, mosque, religious, shrine, synagogue:::-1
+Nein:Öffentliche Gebäude:::::public:::-1
+Nein:Sporthallen etc.:::::sports_hall, stadium, pavilion, riding_hall:::-1
+Ja:Garage:::::carport:::0.1
+Nein:Parkhaus:::::parking, garages:::-0.5
+Nein:Wälder, Berge::::::tree, wood, tree_row, grassland, scrub, beach, peak, hill:park, dog_park, firepit, picnic_table, garden:-0.3
+Nein:Fitness-Center:::::::fitness_centre, fitness_station:-1
+Nein:Golf:::::::golf_course, miniature_golf:-1
+Nein:Spielplatz:::::::playground:-1
