@@ -130,9 +130,9 @@ dmypy.json
 
 # Custom
 tags
-*.cpg
-*.dbf
-*.prj
-*.qpj
-*.shp
-*.shx
+/*.cpg
+/*.dbf
+/*.prj
+/*.qpj
+/*.shp
+/*.shx
