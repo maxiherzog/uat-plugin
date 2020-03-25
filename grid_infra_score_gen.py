@@ -269,12 +269,12 @@ def main():
     '''--Problem mit Extremwerten
     insc = -insc_nodes - insc_ways
     insc = insc/np.max(np.abs(insc)) + 1
-    finalgrid["infra_score"] =  insc'''
+    dfgridnew["infra_score"] =  insc'''
 
     #Idee: Log. skalieren
     insc = insc + abs(np.min(insc)) + 1
     insc = np.log(insc) + 1
-    finalgrid["infra_score"] =  insc
+    dfgridnew["infra_score"] =  insc
 
     #Nochmal ausgeben
     print("After applying a normilization function:" )
