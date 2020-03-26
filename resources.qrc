@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/plugins/unnecessary_activity_tracker" >
+        <file>icon.png</file>
+    </qresource>
+</RCC>

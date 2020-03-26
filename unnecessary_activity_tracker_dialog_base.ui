@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>UnnecessaryActivityTrackerDialogBase</class>
+ <widget class="QDialog" name="UnnecessaryActivityTrackerDialogBase">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>545</width>
+    <height>556</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>UnnecessaryActivityTracker</string>
+  </property>
+  <widget class="QDialogButtonBox" name="button_box">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>370</x>
+     <y>520</y>
+     <width>166</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+   <property name="standardButtons">
+    <set>QDialogButtonBox::Cancel</set>
+   </property>
+  </widget>
+  <widget class="QWidget" name="formLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>9</x>
+     <y>55</y>
+     <width>531</width>
+     <height>301</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="grid">
+    <item row="4" column="0">
+     <widget class="QLabel" name="tagweights_label">
+      <property name="font">
+       <font>
+        <family>padmaa</family>
+       </font>
+      </property>
+      <property name="text">
+       <string>tagweight.csv(seperator=&quot;:&quot;)</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="2">
+     <widget class="QPushButton" name="gen_infra_layer">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="text">
+       <string>Generate Layer</string>
+      </property>
+     </widget>
+    </item>
+    <item row="10" column="2">
+     <widget class="QPushButton" name="gen_final_layer">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="text">
+       <string>Generate Layer</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QCheckBox" name="use_default">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="font">
+       <font>
+        <family>padmaa</family>
+       </font>
+      </property>
+      <property name="text">
+       <string>use default tagweights</string>
+      </property>
+     </widget>
+    </item>
+    <item row="10" column="1">
+     <widget class="QPushButton" name="gen_final_file">
+      <property name="text">
+       <string>Save as Shape File</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="1">
+     <widget class="QLineEdit" name="lineEdit"/>
+    </item>
+    <item row="4" column="2">
+     <widget class="QPushButton" name="pushButton">
+      <property name="font">
+       <font>
+        <family>padmaa</family>
+       </font>
+      </property>
+      <property name="text">
+       <string>Browse</string>
+      </property>
+     </widget>
+    </item>
+    <item row="9" column="0">
+     <widget class="QLabel" name="t0points_label">
+      <property name="font">
+       <font>
+        <family>padmaa</family>
+       </font>
+      </property>
+      <property name="text">
+       <string>points background noise</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="0">
+     <widget class="QLabel" name="final_head">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>20</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <family>padmaa</family>
+        <pointsize>14</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+        <underline>true</underline>
+       </font>
+      </property>
+      <property name="text">
+       <string>Final Scores</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="1">
+     <widget class="QPushButton" name="gen_infra_file">
+      <property name="text">
+       <string>Save as Shape File</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QLabel" name="infra_head">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>20</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <family>padmaa</family>
+        <pointsize>14</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+        <underline>true</underline>
+       </font>
+      </property>
+      <property name="text">
+       <string>Infra Structure Scores</string>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="0">
+     <widget class="QLabel" name="points_label">
+      <property name="font">
+       <font>
+        <family>padmaa</family>
+       </font>
+      </property>
+      <property name="text">
+       <string>points</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="grid_label">
+      <property name="font">
+       <font>
+        <family>padmaa</family>
+       </font>
+      </property>
+      <property name="text">
+       <string>grid</string>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="0">
+     <widget class="QLabel" name="infra_label">
+      <property name="font">
+       <font>
+        <family>padmaa</family>
+       </font>
+      </property>
+      <property name="text">
+       <string>infra scores</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1" colspan="2">
+     <widget class="QProgressBar" name="infra_progressbar">
+      <property name="value">
+       <number>24</number>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="1" colspan="2">
+     <widget class="QProgressBar" name="final_progressbar">
+      <property name="value">
+       <number>24</number>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="1" colspan="2">
+     <widget class="QgsMapLayerComboBox" name="choose_infra"/>
+    </item>
+    <item row="8" column="1" colspan="2">
+     <widget class="QgsMapLayerComboBox" name="choose_points"/>
+    </item>
+    <item row="9" column="1" colspan="2">
+     <widget class="QgsMapLayerComboBox" name="choose_t0points"/>
+    </item>
+    <item row="1" column="1" colspan="2">
+     <widget class="QgsMapLayerComboBox" name="choose_grid"/>
+    </item>
+    <item row="5" column="0">
+     <widget class="QLineEdit" name="infra_lineEdit"/>
+    </item>
+    <item row="10" column="0">
+     <widget class="QLineEdit" name="final_lineEdit"/>
+    </item>
+    <item row="3" column="1">
+     <widget class="QLabel" name="grid_label_2">
+      <property name="font">
+       <font>
+        <family>padmaa</family>
+       </font>
+      </property>
+      <property name="text">
+       <string>Test</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QLabel" name="helb_label">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>530</y>
+     <width>321</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <italic>true</italic>
+    </font>
+   </property>
+   <property name="text">
+    <string>(For info on how to use, visit the GitHub repository.)</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="version_number">
+   <property name="geometry">
+    <rect>
+     <x>500</x>
+     <y>20</y>
+     <width>321</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <italic>true</italic>
+    </font>
+   </property>
+   <property name="text">
+    <string>v. 0.1</string>
+   </property>
+  </widget>
+  <widget class="QTextBrowser" name="console">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>360</y>
+     <width>531</width>
+     <height>151</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="final_head_2">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>0</y>
+     <width>391</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>16777215</width>
+     <height>50</height>
+    </size>
+   </property>
+   <property name="font">
+    <font>
+     <family>padmaa</family>
+     <pointsize>16</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+     <underline>true</underline>
+    </font>
+   </property>
+   <property name="text">
+    <string>Unnecessary Activity Tracker</string>
+   </property>
+  </widget>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QgsMapLayerComboBox</class>
+   <extends>QComboBox</extends>
+   <header>qgsmaplayercombobox.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>button_box</sender>
+   <signal>accepted()</signal>
+   <receiver>UnnecessaryActivityTrackerDialogBase</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>9</x>
+     <y>461</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>button_box</sender>
+   <signal>rejected()</signal>
+   <receiver>UnnecessaryActivityTrackerDialogBase</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>9</x>
+     <y>461</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
